@@ -1,0 +1,4 @@
+<?php
+namespace App\Models;
+use Illuminate\Database\Eloquent\Concerns\HasUlids; use Illuminate\Database\Eloquent\Model; use Illuminate\Database\Eloquent\Relations\BelongsTo; use Illuminate\Database\Eloquent\Relations\HasMany;
+final class Trip extends Model { use HasUlids; protected $fillable=['public_id','schedule_id','route_id','bus_id','departure_at','arrival_at','trip_status','booking_status','base_fare']; protected function casts(): array { return ['departure_at'=>'immutable_datetime','arrival_at'=>'immutable_datetime','base_fare'=>'decimal:2']; } public function route(): BelongsTo { return $this->belongsTo(TransportRoute::class,'route_id'); } public function bus(): BelongsTo { return $this->belongsTo(Bus::class); } public function seats(): HasMany { return $this->hasMany(TripSeat::class); } }
